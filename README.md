@@ -25,7 +25,7 @@ authorization and dataflow boundaries, not by scanners.
 
 | ID | Vendor / Product | Type (CWE) | Severity (CVSS v3.1) | Impact | Discovery | Status | Date | Links |
 |----|------------------|-----------|----------------------|--------|-----------|--------|------|-------|
-| [CVE-2026-128970](advisories/CVE-2026-128970) | esaqa — **Psono Server** (CE & EE) | Incorrect Authorization (CWE-863) | **5.4 Medium** | Invitee without accepted membership deletes a group's share-rights, revoking access for all members | Source audit — create/delete authorization diff | **Fixed** (7.5.1) · credited | 2026-10-13 | [Advisory](advisories/CVE-2026-128970) · [CVE](https://www.cve.org/CVERecord?id=CVE-2026-128970) · [Fix](https://gitlab.com/psono/psono-server/-/commit/86e7ce7fdbb04fc4ae3430cc434179630948d48d) |
+| [CVE-2026-128970](advisories/CVE-2026-128970) | esaqa — **Psono Server** (CE & EE) | Incorrect Authorization (CWE-863) | **5.4 Medium** | Invitee without accepted membership deletes a group's share-rights, revoking access for all members | Source audit — create/delete authorization diff | **Fixed** (7.5.1) · credited | 2026-10-13 | [Advisory](advisories/CVE-2026-128970) · [CVE](https://www.cve.org/CVERecord?id=CVE-2026-128970) · [GHSA](https://github.com/advisories/GHSA-6r6m-8qp2-f3cm) · [Fix](https://gitlab.com/esaqa/psono/psono-server/-/commit/86e7ce7fdbb04fc4ae3430cc434179630948d48d) |
 | [GHSA-4532-fhjf-wq2q](advisories/GHSA-4532-fhjf-wq2q) | Microsoft — **Agent Framework** (.NET) | Protected-value sensitivity bypass (CWE-200 / CWE-203) | **6.5 Moderate** | Declarative-workflow author launders an `Env` secret past the sink guard via a branch condition | Source audit — mitigation-bypass of GHSA-9f26 | **Fixed** (1.26.0) · credited | 2026-10-23 | [Advisory](advisories/GHSA-4532-fhjf-wq2q) · [GHSA](https://github.com/microsoft/agent-framework/security/advisories/GHSA-4532-fhjf-wq2q) · [Fix PR](https://github.com/microsoft/agent-framework/pull/9357) |
 
 A machine-readable version of this list is in [`pedigree.csv`](pedigree.csv).
@@ -48,7 +48,10 @@ security-advisories/
     │   ├── images/               # diagrams
     │   └── poc/                  # local, fabricated-data reproducer
     └── GHSA-4532-fhjf-wq2q/      # Microsoft Agent Framework — ConditionGroup sensitivity bypass
-        └── README.md             # advisory
+        ├── README.md             # advisory
+        ├── WRITEUP.md            # long-form technical write-up
+        ├── images/               # diagrams
+        └── poc/                  # .NET reproducer against published 1.24.0
 ```
 
 ---

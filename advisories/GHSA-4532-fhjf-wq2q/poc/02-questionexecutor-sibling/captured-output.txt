@@ -1,0 +1,9 @@
+== CONTROL: direct secret to sink (expect BLOCKED) ==
+  outcome=BLOCKED emitted=<none> err=TargetInvocationException: Error invoking handler for Microsoft.Agents.AI.Workflows.Declarative.Kit.ActionExecutorResult || DeclarativeActionException: Cannot send sensitive activity text: a. || 
+== ORACLE validity: emitted literal tracks a secret-dependent predicate (secret never emitted) ==
+  predicate StartsWith(secret,"sk_live")  [TRUE] -> emitted=QORACLE_HIT  => oracle bit = 1
+  predicate StartsWith(secret,"xx")       [FALSE] -> emitted=<none>  => oracle bit = 0
+== FULL SECRET RECOVERY via =Mid(Env.API_SECRET,i,1)="c" oracle (secret never emitted) ==
+  recovered = "sk_live_SECRETBIT"
+  actual    = "sk_live_SECRETBIT"
+  match     = True

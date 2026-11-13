@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="700" viewBox="0 0 1400 700" font-family="DejaVu Sans, Arial, sans-serif">
+  <defs>
+    <style>.mono{font-family:"Hack","Fira Code","DejaVu Sans Mono",monospace;} .mut{fill:#8b949e;} .title{font-family:"DejaVu Sans",Arial,sans-serif;font-weight:700;fill:#f0f6fc;}</style>
+    <linearGradient id="acc" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#818cf8"/></linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0" r="0.8"><stop offset="0" stop-color="#1d3a5f" stop-opacity="0.55"/><stop offset="1" stop-color="#0b0e14" stop-opacity="0"/></radialGradient>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#000" flood-opacity="0.5"/></filter>
+  </defs>
+  <rect width="1400" height="700" fill="#0b0e14"/>
+  <ellipse cx="700" cy="-20" rx="820" ry="340" fill="url(#glow)"/>
+
+  <text x="700" y="60" text-anchor="middle" class="title" font-size="37" letter-spacing="-0.5">Three scenarios against the shipped engine (NuGet 1.24.0)</text>
+  <rect x="640" y="80" width="120" height="5" rx="2.5" fill="url(#acc)"/>
+  <text x="700" y="120" text-anchor="middle" font-size="19" class="mut">Same secret, same sink. Only the path from secret to output changes.</text>
+
+  <g font-size="18" font-weight="700" fill="#8b949e">
+    <text x="70" y="182">SCENARIO</text><text x="470" y="182">PATH FROM SECRET → SINK</text><text x="1000" y="182">RESULT</text>
+  </g>
+  <line x1="60" y1="198" x2="1340" y2="198" stroke="#30363d" stroke-width="1.5"/>
+
+  <!-- A -->
+  <rect x="60" y="210" width="1280" height="104" rx="12" fill="#0f1a12" stroke="#2ea043" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="92" y="270" font-size="26" font-weight="700" fill="#3fb950">A</text>
+  <text x="150" y="252" font-size="19" fill="#e6edf3">Direct use</text>
+  <text x="150" y="282" class="mut" font-size="15">the secret itself</text>
+  <text x="470" y="268" class="mono" font-size="16" fill="#c9d1d9">SendActivity "{Env.API_SECRET}"</text>
+  <text x="1000" y="260" font-size="20" font-weight="700" fill="#3fb950">BLOCKED</text>
+  <text x="1000" y="290" font-size="15" class="mut">"Cannot send sensitive activity text"</text>
+
+  <!-- B -->
+  <rect x="60" y="326" width="1280" height="104" rx="12" fill="#0f1a12" stroke="#2ea043" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="92" y="386" font-size="26" font-weight="700" fill="#3fb950">B</text>
+  <text x="150" y="368" font-size="19" fill="#e6edf3">Derived value</text>
+  <text x="150" y="398" class="mut" font-size="15">data flow</text>
+  <text x="470" y="384" class="mono" font-size="16" fill="#c9d1d9">Left(Env.API_SECRET, 2) → SendActivity</text>
+  <text x="1000" y="376" font-size="20" font-weight="700" fill="#3fb950">BLOCKED</text>
+  <text x="1000" y="406" font-size="15" class="mut">sensitivity propagates to the sink</text>
+
+  <!-- C -->
+  <rect x="60" y="442" width="1280" height="104" rx="12" fill="#1a1012" stroke="#f85149" stroke-width="1.6" filter="url(#sh)"/>
+  <text x="92" y="502" font-size="26" font-weight="700" fill="#f85149">C</text>
+  <text x="150" y="484" font-size="19" fill="#e6edf3">ConditionGroup oracle</text>
+  <text x="150" y="514" class="mut" font-size="15">control flow</text>
+  <text x="470" y="500" class="mono" font-size="16" fill="#c9d1d9">branch on secret → assign literal → SendActivity</text>
+  <text x="1000" y="492" font-size="20" font-weight="700" fill="#f85149">EMITTED</text>
+  <text x="1000" y="522" class="mono" font-size="15" fill="#f0883e">OUT=prefix_is_sk_live  ← bypass</text>
+
+  <text x="700" y="602" text-anchor="middle" font-size="19" fill="#e6edf3">A and B prove the boundary guards every <tspan font-weight="700">data-flow</tspan> sink. C proves it is blind to <tspan font-weight="700" fill="#ff7b72">control flow</tspan> — the bypass.</text>
+
+  <line x1="60" y1="626" x2="1340" y2="626" stroke="#21262d" stroke-width="1.5"/>
+  <g transform="translate(60,638)"><path d="M6 9 V6 a7 7 0 0 1 14 0 V9" fill="none" stroke="url(#acc)" stroke-width="3" stroke-linecap="round"/><rect x="2" y="9" width="22" height="18" rx="4" fill="url(#acc)"/><rect x="10.5" y="14" width="3" height="8" rx="1.5" fill="#0b0e14"/></g>
+  <text x="96" y="662" font-size="22" font-weight="700" fill="#e6edf3">Nicholas Mullenski<tspan font-size="21" font-weight="400" fill="#8b949e">&#160;&#160;·&#160;&#160;R00t3dbyFa17h</tspan></text>
+  <text x="1340" y="662" text-anchor="end" font-size="17" fill="#6e7681"><tspan fill="#22d3ee">GHSA-4532-fhjf-wq2q</tspan>&#160;&#160;·&#160;&#160;CWE-200/203&#160;&#160;·&#160;&#160;Microsoft Agent Framework</text>
+</svg>

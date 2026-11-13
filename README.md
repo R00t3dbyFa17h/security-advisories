@@ -1,7 +1,15 @@
 # Security Advisories — Nicholas Mullenski
 
+![Published advisories](https://img.shields.io/badge/advisories-2-0a7bbb?style=flat-square)
+![Vendors](https://img.shields.io/badge/vendors-Microsoft%20%C2%B7%20esaqa-444?style=flat-square)
+![Classes](https://img.shields.io/badge/CWE-863%20%C2%B7%20200%2F203-8a1f1f?style=flat-square)
+![Disclosure](https://img.shields.io/badge/disclosure-coordinated%20%2890--day%29-2ea043?style=flat-square)
+![License](https://img.shields.io/badge/docs-CC%20BY%204.0-blue?style=flat-square)
+![Code](https://img.shields.io/badge/PoC-MIT-informational?style=flat-square)
+
 Public vulnerability advisories, root-cause write-ups, and reproducible proofs-of-concept for issues
-I have discovered and reported through coordinated disclosure.
+I have discovered and reported through coordinated disclosure — found by reading source and tracing
+authorization and dataflow boundaries, not by scanners.
 
 **Researcher:** Nicholas Mullenski · [`@R00t3dbyFa17h`](https://github.com/R00t3dbyFa17h) · `K70n0s510`
 **Focus:** source-code audit and dataflow analysis of authorization boundaries, access control, and injection sinks.
